@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Famished</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+
+<div>
+    <div class="row">
+        <div class="col s12">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo">Famished</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m3">
+            <div class="collection">
+                {% for key, value in datas.items() %}
+                <a href="javascript:getMenu('{{ key }}')" class="collection-item">{{ value.name }}</a>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div id="menu" class="col s12 m9 ">
+            <!-- Teal page content  -->
+        </div>
+    </div>
+</div>
+<div class="fixed-action-btn">
+    <a href="javascript:returnToTop()" class="btn-floating btn-large red">Top </a>
+</div>
+
+</body>
+
+<script>
+    M.AutoInit();
+    const dataSet = JSON.parse('{{datas | tojson | safe}}')
+    const returnToTop = () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+
+        // document.body.scrollTop = 0; // For Safari
+        // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+    }
+
+
+    const getMenu = (key) => {
+        createPreloader()
+        setTimeout(() => {
+            let dataItem = dataSet[key]
+            if (dataItem["data_type"] === "images") {
+                createImages(dataItem.data)
+            } else if (dataItem["data_type"] === "table") {
+                createTable(dataItem.data, dataItem.columns)
+            }
+        }, 500);
+
+    }
+
+    async function sleep(ms = 0) {
+        return new Promise(r => setTimeout(r, ms));
+    }
+
+    const createPreloader = () => {
+        const menu = document.getElementById("menu")
+        menu.innerHTML = `<div class="progress">
+                              <div class="indeterminate"></div>
+                          </div>`
+    }
+
+    const createImages = (images) => {
+        let data_element = images.map((url) => {
+            let img = document.createElement('img')
+            img.classList.add('responsive-img')
+            // img.classList.add('materialboxed')
+            img.src = `${url}`
+            img.loading = "lazy"
+            return img
+        })
+        const menu = document.getElementById("menu")
+        menu.innerHTML = "";
+        document.getElementById("menu").append(...data_element)
+    }
+
+    const createTable = (tableData, columns) => {
+        let table = document.createElement('table')
+        table.classList.add("striped")
+        table.classList.add("highlight")
+
+        let tableBody = document.createElement('tbody')
+        let tableHead = document.createElement('thead')
+        let tableHeadTr = document.createElement('tr');
+
+        columns.forEach(function (column) {
+            let th = document.createElement('th')
+            th.appendChild(document.createTextNode(column))
+            tableHeadTr.appendChild(th)
+        })
+        tableHead.appendChild(tableHeadTr)
+        table.appendChild(tableHead);
+
+        tableData.forEach(function (rowData) {
+            let row = document.createElement('tr');
+
+            columns.forEach(function (column) {
+                let cell = document.createElement('td')
+                let ele
+                if (column === "img") {
+                    let ele = document.createElement("img")
+                    ele.src = rowData[column]
+                    ele.loading = "lazy"
+                    cell.append(ele)
+                } else {
+                    ele = document.createTextNode(rowData[column])
+                    cell.appendChild(ele)
+                }
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+
+        table.appendChild(tableBody);
+        const menu = document.getElementById("menu")
+        menu.innerHTML = "";
+        document.getElementById("menu").appendChild(table);
+    }
+
+
+</script>
+
+
+</html>

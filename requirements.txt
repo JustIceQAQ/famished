@@ -1,0 +1,13 @@
+bs4
+html5lib
+lxml
+requests
+fastapi
+jinja2
+python-multipart
+uvicorn
+httpx
+fastapi-debug-toolbar
+pyppeteer
+selenium
+webdriver_manager
