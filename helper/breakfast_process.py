@@ -1,37 +1,21 @@
-import abc
 import asyncio
 
 import httpx
 from bs4 import BeautifulSoup
 
-from helper.parse_hepler import AsyncParseInit, BeautifulSoupAsyncParse
+from helper.parse_hepler import BeautifulSoupAsyncParse
+from helper.process_helper import ProcessInit
 from helper.spider_helper import (
     HttpxAsyncSpider,
-    AsyncSpiderInit,
-    SeleniumAsyncSpider,
     PyppeteerAsyncSpider
 )
-
-
-class ProcessInit(abc.ABC):
-    method = None
-    url = None
-    use_spider: AsyncSpiderInit
-    use_parse: AsyncParseInit
-
-    @abc.abstractmethod
-    async def get_items(self, parsed: BeautifulSoup):
-        raise NotImplementedError
-
-    @abc.abstractmethod
-    async def run(self, *args, **kwargs):
-        raise NotImplementedError
 
 
 class DailyBreakfast(ProcessInit):
     """達利早餐"""
     method = "GET"
     url = "https://dailybreakfast.com.tw/dishes/"
+    source_url = url
     use_spider = HttpxAsyncSpider
     use_parse = BeautifulSoupAsyncParse
 
@@ -52,7 +36,8 @@ class DailyBreakfast(ProcessInit):
             self.__class__.__name__: {
                 "name": self.__class__.__doc__,
                 "data_type": "images",
-                "data": [img["src"] for img in self.get_items(parsed)]
+                "data": [img["src"] for img in self.get_items(parsed)],
+                "source_url": self.source_url
             },
         }
 
@@ -61,6 +46,7 @@ class OnlyToast(ProcessInit):
     """偷吃吐司"""
     method = "GET"
     url = "https://www.facebook.com/111095720641705/photos/p.592458795838726/592458795838726"
+    source_url = url
     use_spider = PyppeteerAsyncSpider
     use_parse = BeautifulSoupAsyncParse
 
@@ -80,7 +66,8 @@ class OnlyToast(ProcessInit):
             self.__class__.__name__: {
                 "name": self.__class__.__doc__,
                 "data_type": "images",
-                "data": [img["src"] for img in self.get_items(parsed)]
+                "data": [img["src"] for img in self.get_items(parsed)],
+                "source_url": self.source_url
             },
         }
 
@@ -89,6 +76,7 @@ class YosSoyMilk(ProcessInit):
     """永新豆漿"""
     method = "GET"
     url = "https://www.facebook.com/yossoymilk/photos/p.4983616188376668/4983616188376668"
+    source_url = url
     use_spider = PyppeteerAsyncSpider
     use_parse = BeautifulSoupAsyncParse
 
@@ -107,7 +95,8 @@ class YosSoyMilk(ProcessInit):
             self.__class__.__name__: {
                 "name": self.__class__.__doc__,
                 "data_type": "images",
-                "data": [img["src"] for img in self.get_items(parsed)]
+                "data": [img["src"] for img in self.get_items(parsed)],
+                "source_url": self.source_url
             },
         }
 
@@ -116,6 +105,7 @@ class BrunchFirst(ProcessInit):
     """早餐優選"""
     method = "GET"
     url = "https://www.facebook.com/brunchfirst/photos/p.5280780521973752/5280780521973752"
+    source_url = url
     use_spider = PyppeteerAsyncSpider
     use_parse = BeautifulSoupAsyncParse
 
@@ -136,7 +126,8 @@ class BrunchFirst(ProcessInit):
             self.__class__.__name__: {
                 "name": self.__class__.__doc__,
                 "data_type": "images",
-                "data": [img["src"] for img in self.get_items(parsed)]
+                "data": [img["src"] for img in self.get_items(parsed)],
+                "source_url": self.source_url
             },
         }
         return data
@@ -146,6 +137,7 @@ class McdonaldBreakfast(ProcessInit):
     """麥當勞-早餐"""
     method = "GET"
     url = "https://www.mcdonalds.com/tw/zh-tw/full-menu/breakfast.html"
+    source_url = url
     use_spider = HttpxAsyncSpider
     use_parse = BeautifulSoupAsyncParse
 
@@ -174,7 +166,8 @@ class McdonaldBreakfast(ProcessInit):
                 "name": self.__class__.__doc__,
                 "data_type": "table",
                 "columns": ["name", "img"],
-                "data": self.get_items(parsed)
+                "data": self.get_items(parsed),
+                "source_url": self.source_url
             },
         }
 
