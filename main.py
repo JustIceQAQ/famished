@@ -12,7 +12,8 @@ from starlette.staticfiles import StaticFiles
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
-from helper.customization_process import DailyBreakfast, OnlyToast, YosSoyMilk, BrunchFirst, McdonaldBreakfast
+from helper.breakfast_process import (DailyBreakfast, OnlyToast, YosSoyMilk, BrunchFirst, McdonaldBreakfast)
+from helper.lunch_dinner_process import (Mini12, McdonaldFullMenu, SuShiTakeOut, Omrice888, TonGanCurry)
 from debug_toolbar.middleware import DebugToolbarMiddleware
 
 ROOT_DIR = pathlib.Path(__file__).resolve(strict=True).parent
@@ -28,20 +29,33 @@ async def root(request: Request):
     temp_json_file = TempJsonFile(overwrite=False)
     if temp_json_file.is_expired:
         async with httpx.AsyncClient() as client:
-            spiders = [
+            breakfast_task = [
                 DailyBreakfast(use_client=client).run(),
                 OnlyToast(use_client=client).run(),
                 YosSoyMilk(use_client=client).run(),
                 BrunchFirst(use_client=client).run(),
                 McdonaldBreakfast(use_client=client).run(),
             ]
-            datas = dict(ChainMap(*await asyncio.gather(*spiders)))
+            lunch_dinner_task = [
+                Mini12(use_client=client).run(),
+                McdonaldFullMenu(use_client=client).run(),
+                SuShiTakeOut(use_client=client).run(),
+                Omrice888(use_client=client).run(),
+                TonGanCurry(use_client=client).run(),
+            ]
+            breakfast_gather = asyncio.gather(*breakfast_task)
+            lunch_dinner_gather = asyncio.gather(*lunch_dinner_task)
+            breakfast, lunch_dinner = await asyncio.gather(breakfast_gather, lunch_dinner_gather)
 
-            temp_json_file.commit(datas)
-    datas = temp_json_file.read()
+            meal = {
+                "breakfast": dict(ChainMap(*breakfast)),
+                "lunch_dinner": dict(ChainMap(*lunch_dinner))
+            }
+            temp_json_file.commit(meal)
+    meal = temp_json_file.read()
     return templates.TemplateResponse(
         'index.html',
-        {"request": request, "datas": datas}
+        {"request": request, "datas": meal}
     )
 
 
