@@ -1,3 +1,4 @@
+import asyncio
 import secrets
 
 import httpx
@@ -175,5 +176,49 @@ class TonGanCurry(ProcessInit):
                 "source_url": self.source_url
             },
         }
-# TODO: 吉野家
-# TODO: 八方雲集
+
+
+class SDB1976(ProcessInit):
+    """孫東寶"""
+    method = "GET"
+    url = "http://www.xn--98som070a.tw/menu.html"
+    source_url = url
+    use_spider = HttpxAsyncSpider
+    use_parse = BeautifulSoupAsyncParse
+
+    def __init__(self, *args, use_client: httpx.AsyncClient = None, **kwargs):
+        super().__init__()
+        self.spider = self.use_spider(use_client=use_client)
+
+    def get_items(self, parsed: BeautifulSoup = None):
+        pre_img_path = "http://www.xn--98som070a.tw/"
+        foods = parsed.find("div", {"id": "tab4"}).select("div.single-food-inner")
+        return [
+            {
+                "name": data.find("div", {"class": "single-food-item-title"}).find("h2").get_text(),
+                "img": f'{pre_img_path}{data.find("img").get("src")}'
+            }
+            for data in foods
+        ]
+
+    async def run(self, *args, **kwargs):
+        response = await self.spider.fetch(self.method, self.url)
+        parsed = await self.use_parse().parsing(response.text)
+        return {
+            self.__class__.__name__: {
+                "name": self.__class__.__doc__,
+                "data_type": "table",
+                "columns": ["name", "img"],
+                "data": self.get_items(parsed),
+                "source_url": self.source_url
+            },
+        }
+
+
+async def main():
+    async with httpx.AsyncClient(timeout=None) as client:
+        print(await SDB1976(use_client=client).run())
+
+
+if __name__ == '__main__':
+    asyncio.run(main())

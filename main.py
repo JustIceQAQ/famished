@@ -15,7 +15,7 @@ from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
 from helper.breakfast_process import (DailyBreakfast, OnlyToast, YosSoyMilk, BrunchFirst, McdonaldBreakfast)
-from helper.lunch_dinner_process import (Mini12, McdonaldFullMenu, SuShiTakeOut, Omrice888, TonGanCurry)
+from helper.lunch_dinner_process import (Mini12, McdonaldFullMenu, SuShiTakeOut, Omrice888, TonGanCurry, SDB1976)
 from debug_toolbar.middleware import DebugToolbarMiddleware
 
 ROOT_DIR = pathlib.Path(__file__).resolve(strict=True).parent
@@ -63,8 +63,8 @@ async def root(request: Request):
     )
 
 
-async def update_json_data():
-    temp_json_file = TempJsonFile(overwrite=True)
+async def update_json_data(overwrite=True):
+    temp_json_file = TempJsonFile(overwrite=overwrite)
     if temp_json_file.is_expired:
         async with httpx.AsyncClient(timeout=None) as client:
             breakfast_task = [
@@ -80,6 +80,7 @@ async def update_json_data():
                 SuShiTakeOut(use_client=client).run(),
                 Omrice888(use_client=client).run(),
                 TonGanCurry(use_client=client).run(),
+                SDB1976(use_client=client).run()
             ]
             breakfast_gather = asyncio.gather(*breakfast_task)
             lunch_dinner_gather = asyncio.gather(*lunch_dinner_task)
@@ -92,10 +93,11 @@ async def update_json_data():
             temp_json_file.commit(meal)
 
 
-@app.get("/file")
+@app.get("/update_file")
 async def file():
+    await update_json_data(overwrite=False)
     temp_json_file = TempJsonFile()
-    return {"qaq": temp_json_file.read()}
+    return temp_json_file.read()
 
 
 class TempJsonFile:
@@ -140,7 +142,7 @@ async def init_startup():
     global scheduler
     global logger
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(update_json_data, 'interval', hours=24)
+    scheduler.add_job(update_json_data, 'interval', hours=24)  # , hours=24 , seconds=60
     scheduler.start()
     print("Apscheduler is initialized")
 
