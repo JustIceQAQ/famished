@@ -1,4 +1,5 @@
 import asyncio
+import os
 from typing import Union, Dict, Any
 
 import httpx
@@ -75,10 +76,18 @@ class PyppeteerAsyncSpider(AsyncSpiderInit):
         pass
 
     async def fetch(self, method: str, url: str, *args, **kwargs) -> str:
-        browser = await launch(
-            headless=True,
-            options={'args': ["--no-sandbox", "--disable-notifications"]},
-        )
+        deploy_level = os.getenv("deploy_level", "dev")
+        if deploy_level in {"prod"}:
+            browser = await launch(
+                executablePath='/usr/bin/google-chrome-stable',
+                headless=True,
+                options={'args': ["--no-sandbox", "--disable-notifications"]},
+            )
+        else:
+            browser = await launch(
+                headless=True,
+                options={'args': ["--no-sandbox", "--disable-notifications"]},
+            )
         page = await browser.newPage()
         await page.goto(url, waitUntil="networkidle0")
         page_source = await page.content()

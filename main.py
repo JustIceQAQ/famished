@@ -1,5 +1,6 @@
 import asyncio
 import datetime
+import logging
 import os
 from collections import ChainMap
 import pathlib
@@ -7,6 +8,7 @@ import json
 
 import httpx
 import uvicorn
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 from starlette.requests import Request
@@ -22,13 +24,49 @@ app = FastAPI(debug=False)
 app.add_middleware(DebugToolbarMiddleware)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
+scheduler = None
+logger = logging.getLogger(__name__)
 
 
 @app.get("/")
 async def root(request: Request):
     temp_json_file = TempJsonFile(overwrite=False)
+    # if temp_json_file.is_expired:
+    #     async with httpx.AsyncClient() as client:
+    #         breakfast_task = [
+    #             DailyBreakfast(use_client=client).run(),
+    #             OnlyToast(use_client=client).run(),
+    #             YosSoyMilk(use_client=client).run(),
+    #             BrunchFirst(use_client=client).run(),
+    #             McdonaldBreakfast(use_client=client).run(),
+    #         ]
+    #         lunch_dinner_task = [
+    #             Mini12(use_client=client).run(),
+    #             McdonaldFullMenu(use_client=client).run(),
+    #             SuShiTakeOut(use_client=client).run(),
+    #             Omrice888(use_client=client).run(),
+    #             TonGanCurry(use_client=client).run(),
+    #         ]
+    #         breakfast_gather = asyncio.gather(*breakfast_task)
+    #         lunch_dinner_gather = asyncio.gather(*lunch_dinner_task)
+    #         breakfast, lunch_dinner = await asyncio.gather(breakfast_gather, lunch_dinner_gather)
+    #
+    #         meal = {
+    #             "breakfast": dict(ChainMap(*breakfast)),
+    #             "lunch_dinner": dict(ChainMap(*lunch_dinner))
+    #         }
+    #         temp_json_file.commit(meal)
+    meal = temp_json_file.read()
+    return templates.TemplateResponse(
+        'index.html',
+        {"request": request, "datas": meal}
+    )
+
+
+async def update_json_data():
+    temp_json_file = TempJsonFile(overwrite=True)
     if temp_json_file.is_expired:
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(timeout=None) as client:
             breakfast_task = [
                 DailyBreakfast(use_client=client).run(),
                 OnlyToast(use_client=client).run(),
@@ -52,11 +90,6 @@ async def root(request: Request):
                 "lunch_dinner": dict(ChainMap(*lunch_dinner))
             }
             temp_json_file.commit(meal)
-    meal = temp_json_file.read()
-    return templates.TemplateResponse(
-        'index.html',
-        {"request": request, "datas": meal}
-    )
 
 
 @app.get("/file")
@@ -100,6 +133,16 @@ class TempJsonFile:
     def commit(self, _dict):
         with open(self.data_path, "w", encoding="utf-8") as f:
             json.dump(_dict, f, indent=2)
+
+
+@app.on_event("startup")
+async def init_startup():
+    global scheduler
+    global logger
+    scheduler = AsyncIOScheduler()
+    scheduler.add_job(update_json_data, 'interval', hours=24)
+    scheduler.start()
+    print("Apscheduler is initialized")
 
 
 if __name__ == "__main__":

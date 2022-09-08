@@ -11,3 +11,4 @@ fastapi-debug-toolbar
 pyppeteer
 selenium
 webdriver_manager
+apscheduler
