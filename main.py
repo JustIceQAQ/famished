@@ -7,6 +7,7 @@ import pathlib
 import json
 
 import httpx
+import pytz
 import uvicorn
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
@@ -18,11 +19,14 @@ from helper.breakfast_process import (DailyBreakfast, OnlyToast, YosSoyMilk, Bru
 from helper.lunch_dinner_process import (Mini12, McdonaldFullMenu, SuShiTakeOut, Omrice888, TonGanCurry, SDB1976)
 from debug_toolbar.middleware import DebugToolbarMiddleware
 
+from helper.templates_helper import MomentJs
+
 ROOT_DIR = pathlib.Path(__file__).resolve(strict=True).parent
 
 app = FastAPI(debug=False)
 app.add_middleware(DebugToolbarMiddleware)
 templates = Jinja2Templates(directory="templates")
+templates.env.globals["momentjs"] = MomentJs
 app.mount("/static", StaticFiles(directory="static", html=True), name="static")
 scheduler = None
 logger = logging.getLogger(__name__)
@@ -88,7 +92,10 @@ async def update_json_data(overwrite=True):
 
             meal = {
                 "breakfast": dict(ChainMap(*breakfast)),
-                "lunch_dinner": dict(ChainMap(*lunch_dinner))
+                "lunch_dinner": dict(ChainMap(*lunch_dinner)),
+                "info": {
+                    "last_update": datetime.datetime.now(pytz.timezone("Asia/Taipei")).isoformat()
+                }
             }
             temp_json_file.commit(meal)
 

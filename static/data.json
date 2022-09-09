@@ -14,7 +14,7 @@
       "name": "\u65e9\u9910\u512a\u9078",
       "data_type": "images",
       "data": [
-        "https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/278477076_5280780518640419_2477311182406915486_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=aX30Med6Z-4AX-ZPP6_&_nc_ht=scontent.ftpe7-4.fna&oh=00_AT8sDn49oyKLIJVML1zJxULFcMs-1KuNty_KopTCd3q2mA&oe=631ABE61"
+        "https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/278477076_5280780518640419_2477311182406915486_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=KKP1QgwvQL8AX-QqFLw&_nc_ht=scontent.ftpe7-4.fna&oh=00_AT_xn8XjGnPY0_eNLHG3df8fFkNhGK3XrsSCd3mcbAOR-A&oe=6320AD21"
       ],
       "source_url": "https://www.facebook.com/brunchfirst/photos/p.5280780521973752/5280780521973752"
     },
@@ -22,7 +22,7 @@
       "name": "\u6c38\u65b0\u8c46\u6f3f",
       "data_type": "images",
       "data": [
-        "https://scontent.ftpe7-3.fna.fbcdn.net/v/t1.6435-9/135834469_4983616195043334_7231922478721125308_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=l9icsnISH-4AX_3jxJi&_nc_ht=scontent.ftpe7-3.fna&oh=00_AT-4BRxCjN2FYCu-KS0w8gsZxBCDhriAeyiWVFvFulzV6Q&oe=633CE473"
+        "https://scontent.ftpe7-3.fna.fbcdn.net/v/t1.6435-9/135834469_4983616195043334_7231922478721125308_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=7a2UxFjGVMYAX9NSyM6&_nc_ht=scontent.ftpe7-3.fna&oh=00_AT8a2ChZY3qaJma24fyYlQN9-vtN61OCvm3pCAq4LhiXZw&oe=6340D8F3"
       ],
       "source_url": "https://www.facebook.com/yossoymilk/photos/p.4983616188376668/4983616188376668"
     },
@@ -30,7 +30,7 @@
       "name": "\u5077\u5403\u5410\u53f8",
       "data_type": "images",
       "data": [
-        "https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/293617065_592458792505393_4824094605553428622_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=hKp-MGRQkYUAX_Vq9x8&_nc_ht=scontent.ftpe7-4.fna&oh=00_AT-TG7VVJQD-T36dy2UJkYEPCk0xE60xiJMSnVw3B0EotQ&oe=631A731F"
+        "https://scontent.ftpe7-4.fna.fbcdn.net/v/t39.30808-6/293617065_592458792505393_4824094605553428622_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=QxiCbe14TaoAX_QZ9h0&_nc_ht=scontent.ftpe7-4.fna&oh=00_AT9JhaTbTR7FGOPDGapIj4zw7xgTb5g71p-tXKiVpXNNzQ&oe=632061DF"
       ],
       "source_url": "https://www.facebook.com/111095720641705/photos/p.592458795838726/592458795838726"
     },
@@ -42,6 +42,85 @@
     }
   },
   "lunch_dinner": {
+    "SDB1976": {
+      "name": "\u5b6b\u6771\u5bf6",
+      "data_type": "table",
+      "columns": [
+        "name",
+        "img"
+      ],
+      "data": [
+        {
+          "name": "\u4e3b\u5eda\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/01.png"
+        },
+        {
+          "name": "\u4e3b\u5eda\u8c6c\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/2.png"
+        },
+        {
+          "name": "\u4e3b\u5eda\u96de\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/3.png"
+        },
+        {
+          "name": "\u5927\u6bd4\u76ee\u9b5a\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/4.png"
+        },
+        {
+          "name": "\u9baeQ\u9b77\u9b5a\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/28.png"
+        },
+        {
+          "name": "\u677f\u8171\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/10.png"
+        },
+        {
+          "name": "\u6c99\u6717\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/5.png"
+        },
+        {
+          "name": "\u6c99\u6717\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/5.png"
+        },
+        {
+          "name": "\u6d77\u9678\u9910(\u8001\u9955\u725b\u6392+\u767d\u8766)",
+          "img": "http://www.xn--98som070a.tw/images/food/21.png"
+        },
+        {
+          "name": "\u7d10\u7d04\u6559\u7236\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/7.png"
+        },
+        {
+          "name": "\u5e36\u9aa8\u725b\u5c0f\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/26.png"
+        },
+        {
+          "name": "\u8d85\u5927\u584a\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/8.png"
+        },
+        {
+          "name": "\u9435\u677f\u5c0f\u9bae\u8089",
+          "img": "http://www.xn--98som070a.tw/images/food/31.png"
+        },
+        {
+          "name": "\u8001\u9955\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/11.png"
+        },
+        {
+          "name": "\u4e01\u9aa8\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/20.png"
+        },
+        {
+          "name": "\u808b\u773c\u725b\u6392",
+          "img": "http://www.xn--98som070a.tw/images/food/32.png"
+        },
+        {
+          "name": "\u9435\u677f\u9eb5",
+          "img": "http://www.xn--98som070a.tw/images/food/12.png"
+        }
+      ],
+      "source_url": "http://www.xn--98som070a.tw/menu.html"
+    },
     "TonGanCurry": {
       "name": "\u901a\u5eb5 \u719f\u6210\u5496\u55b1",
       "data_type": "images",
@@ -54,7 +133,7 @@
       "name": "\u6d0b\u4e00\u5496\u54e9",
       "data_type": "images",
       "data": [
-        "https://scontent.ftpe7-1.fna.fbcdn.net/v/t1.6435-9/186496799_117588050501776_3834628942185433757_n.png?_nc_cat=106&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=m77sxL3OFHQAX-wXyCJ&_nc_ht=scontent.ftpe7-1.fna&oh=00_AT8YXAoBjXeeFa00dMWTiQ-K6Ir11OVnTXV0LRouS_SI_A&oe=633B0576"
+        "https://scontent.ftpe7-1.fna.fbcdn.net/v/t1.6435-9/186496799_117588050501776_3834628942185433757_n.png?_nc_cat=106&ccb=1-7&_nc_sid=c4c01c&_nc_ohc=hbjLIp7wvkQAX_TDqkG&_nc_ht=scontent.ftpe7-1.fna&oh=00_AT80tJVccNr4TJ5lSxHM5DIr9JSE9Y1OePClonTQXAIrPg&oe=633EF9F6"
       ],
       "source_url": "https://www.facebook.com/103527231907858/photos/p.117588047168443/117588047168443"
     },
@@ -99,8 +178,8 @@
           "img": "https://www.sushiexpress.com.tw/images/Product/4891_s.png"
         },
         {
-          "name": "\u706b\u7130\u9bad\u76db\u5408",
-          "img": "https://www.sushiexpress.com.tw/images/Product/4894_s.png"
+          "name": "\u706b\u7130\u6d0b\u8525\u9bad\u76db\u5408",
+          "img": "https://www.sushiexpress.com.tw/images/Product/4931_s.png"
         },
         {
           "name": "\u706b\u7130\u6d77\u9678",
@@ -151,5 +230,8 @@
       ],
       "source_url": "https://www.12mini.com.tw/menu-content.php?menu=2"
     }
+  },
+  "info": {
+    "last_update": "2022-09-09T21:47:19.790497+08:00"
   }
 }
