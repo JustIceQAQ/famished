@@ -91,5 +91,6 @@ class PyppeteerAsyncSpider(AsyncSpiderInit):
         page = await browser.newPage()
         await page.goto(url, waitUntil="networkidle0")
         page_source = await page.content()
+        await browser.disconnect()
         await browser.close()
         return page_source
